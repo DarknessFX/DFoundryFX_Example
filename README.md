@@ -27,12 +27,8 @@ using the example instead of directly copy to the Engine folder.
 
 . Download the repo as ZIP.<br/>
 . Unzip anywhere.<br/>
-. Unblock and execute the **Setup.bat** file.<br/>
-. Open the newly created *DFoundryFX_Example.sln* in Visual Studio.<br/>
-. Build the project.<br/>
-. Open Unreal Engine.<br/>
-. Play In Editor. <br/>
-. DFoundryFX plugin will show up on your viewport.<br/>
+. Unblock and execute the **Setup.bat** file.<br/><br/>
+If everything works, Setup.bat will open your Unreal Engine with the plugin built and ready to use.
 
 ## Credits
 
