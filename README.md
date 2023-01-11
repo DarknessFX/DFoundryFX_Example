@@ -16,7 +16,7 @@
 
 <img src="https://github.com/DarknessFX/DFoundryFX/raw/eea015c01c242c5107f6b47a4e32e807e9e6de8d/.git_img/screenshot01.png" width="640px" /> <br/>
 
-<a href="https://github.com/DarknessFX/DFoundryFX" target="_blank">DFoundryFX</a> plugin For Unreal Engine example project. This example project is for Unreal
+Example project for <a href="https://github.com/DarknessFX/DFoundryFX" target="_blank">DFoundryFX</a> plugin. This example project is for Unreal
 Engine 5.1 but should work fine with Unreal Engine 5.0, basically is just the C++ FPS Template 
 with an empty C++ UObject Class.<br/>
 
