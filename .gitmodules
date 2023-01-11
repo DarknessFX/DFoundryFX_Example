@@ -1,3 +1,10 @@
-[submodule "Plugins\\DFoundryFX"]
-	path = Plugins\\DFoundryFX
+[submodule "Plugins/DFoundryFX"]
+	path = Plugins/DFoundryFX
 	url = https://github.com/DarknessFX/DFoundryFX
+[submodule "Plugins/DFoundryFX/Source/Thirdparty/ImGui/imgui"]
+	path = Plugins/DFoundryFX/Source/Thirdparty/ImGui/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "Plugins/DFoundryFX/Source/Thirdparty/ImGui/implot"]
+	path = Plugins/DFoundryFX/Source/Thirdparty/ImGui/implot
+	url = https://github.com/epezent/implot.git
