@@ -152,8 +152,8 @@ EXIT /b
 :ClonePlugin
 ECHO %_fCyan%%_bBlack%  - Cloning DFoundryFX Plugin git.%_ResetColor%
 IF NOT EXIST "%CD%\Plugins" ( MKDIR "%CD%\Plugins" )
-IF NOT EXIST "%CD%\Plugins\DFoundryFX" (
-  MKDIR "%CD%\Plugins\DFoundryFX"
+IF NOT EXIST "%CD%\Plugins\DFoundryFX" ( MKDIR "%CD%\Plugins\DFoundryFX" )
+IF NOT EXIST "%CD%\Plugins\DFoundryFX\Source" (
   GIT clone --recursive https://github.com/DarknessFX/DFoundryFX "%CD%\Plugins\DFoundryFX"
 ) ELSE (
   CD Plugins\DFoundryFX
