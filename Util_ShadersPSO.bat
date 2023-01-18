@@ -221,7 +221,7 @@ ECHO  Exit the game with ALT+F4 .
 ECHO.
 ECHO Starting game in 5 secons.
 TIMEOUT /T 5
-START "Playing %_PROJECTNAME% Development With PSO Build" /B /WAIT /D "%CD%\Build\Development\WindowsWithPSO" "%CD%\Build\Development\WindowsWithPSO\%_PROJECTNAME%Game.exe" -logPSO -ResX=1280 -ResY=720 -WINDOWED -dx12
+START "Playing %_PROJECTNAME% Development With PSO Build" /B /WAIT /D "%CD%\Build\Development\WindowsWithPSO" "%CD%\Build\Development\WindowsWithPSO\%_PROJECTNAME%.exe" -logPSO -ResX=1280 -ResY=720 -WINDOWED -dx12
 ECHO   -WithPSO gameplay done.
 ECHO.
 %_RETURN%
