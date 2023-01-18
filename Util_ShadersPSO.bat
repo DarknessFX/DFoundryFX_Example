@@ -27,6 +27,7 @@ REM VARIABLES
 SET _UEUVS=
 SET _UEPath=
 
+
 REM **********
 REM MAIN
 CALL :Intro
@@ -101,8 +102,8 @@ FOR /f "tokens=3" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\Unreal.ProjectFile\shell
 IF NOT EXIST "%_UEUVS%" (
   ECHO %_fRed%%_bBlack%  Fail, UnrealVersionSelector-Win64-Shipping.exe not found.%_ResetColor%
   ECHO.
-  PAUSE
-  EXIT
+  ECHO Exiting...
+  GOTO :END
 )
 ECHO   Found at:
 ECHO     %_UEUVS%.
@@ -122,7 +123,8 @@ IF NOT EXIST %_UEPath%\BINARIES (
 IF NOT EXIST %_UEPath%\BINARIES (
   ECHO %_fRed%%_bBlack%  Fail, Unreal Engine folder not found.%_ResetColor%
   ECHO.
-  EXIT
+  ECHO Exiting...
+  GOTO :END
 )
 ECHO   Found at:
 ECHO     %_UEPath%.
@@ -227,8 +229,8 @@ ECHO.
 REM /FUNTIONS
 REM **********
 
+
 :END
-REM END
 ECHO.
 PAUSE
 EXIT 0
