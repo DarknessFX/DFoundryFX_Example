@@ -29,6 +29,26 @@ SET _UEPath=
 
 REM **********
 REM MAIN
+CALL :Intro
+CALL :FindUEVS
+CALL :FindUE
+CALL :BuildDevelopmentLogPSO
+CALL :StartDevelopmentLogPSO
+CALL :PSOExpansion
+CALL :BuildDevelopmentPSO
+CALL :StartDevelopmentWithPSO
+
+ECHO.
+ECHO %_fGreen%%_bBlack%Everything worked.%_ResetColor%
+
+GOTO :END
+REM /MAIN
+REM **********
+
+
+REM **********
+REM FUNTIONS
+:Intro
 ECHO %_fGreen%%_bBlack%. DFoundryFX Utility for Precompiled Shaders.%_ResetColor%
 ECHO  Utility tool to generate and test Precompiled Shaders PSO from UE5.
 ECHO.
@@ -72,25 +92,9 @@ IF %ERRORLEVEL% NEQ 1 (
   ECHO Exiting...
   GOTO :END
 )
-
-CALL :FindUEVS
-CALL :FindUE
-CALL :BuildDevelopmentLogPSO
-CALL :StartDevelopmentLogPSO
-CALL :PSOExpansion
-CALL :BuildDevelopmentPSO
-CALL :StartDevelopmentWithPSO
-
-ECHO.
-ECHO %_fGreen%%_bBlack%Everything worked.%_ResetColor%
-
-GOTO :END
-REM /MAIN
-REM **********
+%_RETURN%
 
 
-REM **********
-REM FUNTIONS
 :FindUEVS
 ECHO %_fCyan%%_bBlack%  - Finding Unreal Engine Version Selector path.%_ResetColor%
 FOR /f "tokens=3" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\Unreal.ProjectFile\shell\rungenproj\command" /VE ^|FINDSTR /ri "REG_SZ"') DO SET _UEUVS=%%a
