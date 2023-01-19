@@ -17,8 +17,7 @@
 <img src="https://github.com/DarknessFX/DFoundryFX/raw/eea015c01c242c5107f6b47a4e32e807e9e6de8d/.git_img/screenshot01.png" width="640px" /> <br/>
 
 Example project for <a href="https://github.com/DarknessFX/DFoundryFX" target="_blank">DFoundryFX</a> plugin. This example project is for Unreal
-Engine 5.1 but should work fine with Unreal Engine 5.0, basically is the C++ FPS Template 
-with an empty C++ UObject Class just to have a simple Visual Studio Solution and projects.<br/>
+Engine 5.1, basically is the C++ FPS Template with an empty C++ UObject Class just to have a simple Visual Studio Solution and projects.<br/>
 
 Is not necessary to get this example project but is easier to build, play and test the plugin code
 using the example instead of directly copy to the Engine folder.
@@ -28,7 +27,7 @@ using the example instead of directly copy to the Engine folder.
 . Download the repo as ZIP.<br/>
 . Unzip anywhere.<br/>
 . Unblock and execute the **Setup.bat** file.<br/><br/>
-If everything works, Setup.bat will open your Unreal Engine with the plugin built and ready to use.
+If everything works, Setup.bat will finish opening your Unreal Engine with the plugin built and ready to use.
 
 ## Credits
 
