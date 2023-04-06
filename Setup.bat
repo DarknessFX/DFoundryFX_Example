@@ -27,7 +27,8 @@ ECHO %_fGreen%%_bBlack%. DFoundryFX Plugin Setup .%_ResetColor%
 
 ECHO.
 CALL :CheckVSDevCmd
-CALL :CheckMake
+CALL :FindVSDevCmd
+CALL :CheckCMake
 CALL :CheckGit
 CALL :FindVS
 CALL :LoadVSDevCmd
@@ -53,7 +54,7 @@ REM **********
 
 
 REM **********
-REM FUNTIONS
+REM FUNCTIONS
 :CheckVSDevCmd
 ECHO %_fCyan%%_bBlack%  - Checking if in Visual Studio Developer Enviroment (vsdevcmd.bar or vsvarsall.bat).%_ResetColor%
 IF DEFINED VCToolsInstallDir ( 
@@ -64,15 +65,33 @@ SET _DevCmd=0
 ECHO %_fYellow%%_bBlack%  Fail, not in Visual Studio Developer Enviroment.%_ResetColor%
 EXIT /b
 
-:CheckMake
-ECHO %_fCyan%%_bBlack%  - Checking Make.exe exists.%_ResetColor%
-WHERE Make.exe >nul
+:FindVSDevCmd
+IF %_DevCmd% EQU 1 ( EXIT /b )
+ECHO.
+ECHO %_fCyan%%_bBlack%  - Trying to load Visual Studio Developer Enviroment (vsdevcmd.bar or vsvarsall.bat).%_ResetColor%
+FOR /f "tokens=3" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\VisualStudio.Launcher.sln\CurVer" /VE ^|FINDSTR /ri "REG_SZ"') DO SET _VS_SLN_CurVer=%%a
+FOR /f "tokens=3" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\%_VS_SLN_CurVer%\CLSID" /VE ^|FINDSTR /ri "REG_SZ"') DO SET _VS_SLN_CLSID=%%a
+FOR /f "tokens=3*" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\WOW6432Node\CLSID\%_VS_SLN_CLSID%\LocalServer32" /VE ^|FINDSTR /ri "REG_SZ"') DO SET _VS_SLN_Dir=^"%%~a %%~b
+FOR %%G IN (%_VS_SLN_Dir%) DO SET _VS_SLN_Path=%%~dG%%~pG
+ECHO     VisualStudio Version : %_VS_SLN_CurVer%
+ECHO     VisualStudio CLSID   : %_VS_SLN_CLSID%
+ECHO     VisualStudio DevEnv  : %_VS_SLN_Dir%
+ECHO     VisualStudio DevCmd  : %_VS_SLN_Path%..\Tools\VsDevCmd.bat
+IF EXIST "%_VS_SLN_Path%..\..\VC\Auxiliary\Build\vcvars64.bat" (
+  CALL "%_VS_SLN_Path%..\..\VC\Auxiliary\Build\vcvars64.bat"
+  SET _DevCmd=1
+)
+EXIT /b
+
+:CheckCMake
+ECHO %_fCyan%%_bBlack%  - Checking CMake.exe exists.%_ResetColor%
+WHERE CMake.exe >nul
 IF %ERRORLEVEL% EQU 0 ( 
-  ECHO   Make.exe detected.
+  ECHO   CMake.exe detected.
   EXIT /b
 )
 SET _DevCmd=0
-ECHO %_fYellow%%_bBlack%  Fail, Make.exe not found.%_ResetColor%
+ECHO %_fYellow%%_bBlack%  Fail, CMake.exe not found.%_ResetColor%
 EXIT /b
 
 :CheckGit
@@ -142,6 +161,7 @@ ECHO %_fCyan%%_bBlack%  - Cloning DFoundryFX_Example git.%_ResetColor%
 IF NOT EXIST "%CD%\Source" (
   MKDIR "%CD%\Temp"
   GIT clone --recursive https://github.com/DarknessFX/DFoundryFX_Example "%CD%\Temp"
+  IF EXIST "%CD%\Temp\Setup.bat" ( DEL /Q "%CD%\Temp\Setup.bat" )
   XCOPY /S /H /Y /Q "%CD%\Temp\" "%CD%\"
   RMDIR /S /Q "%CD%\Temp"
 ) ELSE ( 
@@ -155,10 +175,6 @@ IF NOT EXIST "%CD%\Plugins" ( MKDIR "%CD%\Plugins" )
 IF NOT EXIST "%CD%\Plugins\DFoundryFX" ( MKDIR "%CD%\Plugins\DFoundryFX" )
 IF NOT EXIST "%CD%\Plugins\DFoundryFX\Source" (
   GIT clone --recursive https://github.com/DarknessFX/DFoundryFX "%CD%\Plugins\DFoundryFX"
-) ELSE (
-  CD Plugins\DFoundryFX
-  GIT pull
-  CD ..\..
 )
 EXIT /b
 
@@ -171,7 +187,7 @@ EXIT /b
 
 :FindUE
 ECHO %_fCyan%%_bBlack%  - Finding Unreal Engine path.%_ResetColor%
-FOR /f "tokens=3" %%a IN ('REG QUERY "HKEY_CLASSES_ROOT\Unreal.ProjectFile\shell\rungenproj\command" /VE ^|FINDSTR /ri "REG_SZ"') DO SET _UEUVS=%%a
+FOR /f "tokens=3*" %%a IN ('REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\EpicGames\Unreal Engine" /S /V InstalledDirectory ^|FINDSTR /ri "REG_SZ"') DO SET _UEUVS=%%a
 IF NOT EXIST "%_UEUVS%" (
   ECHO %_fRed%%_bBlack%  Fail, UnrealVersionSelector-Win64-Shipping.exe not found.%_ResetColor%
   ECHO.
@@ -189,10 +205,10 @@ EXIT /b
 
 :GenerateSolution
 ECHO %_fCyan%%_bBlack%  - Generating DFoundryFX_Example VS Solution.%_ResetColor%
-SET _UEPath=%_UEUVS:UnrealVersionSelector-Win64-Shipping.exe=%
+SET _UEPath=%_UEUVS%
 IF NOT DEFINED VSAPPIDDIR SET VSAPPIDDIR=%VSINSTALLDIR%Common7\IDE\
 IF NOT DEFINED VisualStudioEdition SET VisualStudioEdition=%VisualStudioVersion%
-CD /D %_UEPath%\..\..\Build\BatchFiles\
+CD /D %_UEPath%\Engine\Build\BatchFiles\
 CALL Build.bat -projectfiles -project="%~dp0%\DFoundryFX_Example.uproject" -game -engine -progress
 IF %ERRORLEVEL% NEQ 0 (
   ECHO %_fRed%%_bBlack%  Fail to generate DFoundryFX_Example VS Solution.%_ResetColor%
@@ -210,7 +226,7 @@ EXIT /b
 
 :BuildSolution
 ECHO %_fCyan%%_bBlack%  - Building DFoundryFX_Example.sln .%_ResetColor%
-CD /D %_UEPath%\..\..\Build\BatchFiles\
+CD /D %_UEPath%\Engine\Build\BatchFiles\
 CALL Build.bat -Target="DFoundryFX_ExampleEditor Win64 Development" -Project="%~dp0%/DFoundryFX_Example.uproject"
 CD /D %~dp0%
 ECHO   VS Solution successfully built.
