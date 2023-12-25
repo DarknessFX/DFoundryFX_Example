@@ -48,7 +48,8 @@ REM **********
 
 
 REM **********
-REM FUNTIONS
+REM FUNCTIONS
+
 :Intro
 ECHO %_fGreen%%_bBlack%. DFoundryFX Utility for Precompiled Shaders.%_ResetColor%
 ECHO  Utility tool to generate and test Precompiled Shaders PSO from UE5.
@@ -85,7 +86,7 @@ ECHO      [/Script/UnrealEd.ProjectPackagingSettings]
 ECHO      bShareMaterialShaderCode=True
 ECHO      bSharedMaterialNativeLibraries=True
 ECHO.
-ECHO  DFoundryFX_Example project alredy have this configs ready.
+ECHO  DFoundryFX_Example project already have this configs ready.
 ECHO.
 CALL
 CHOICE /M "Start the utility now?"
@@ -226,7 +227,7 @@ ECHO   -WithPSO gameplay done.
 ECHO.
 %_RETURN%
 
-REM /FUNTIONS
+REM /FUNCTIONS
 REM **********
 
 
